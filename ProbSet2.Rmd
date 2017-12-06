@@ -42,18 +42,25 @@ language. What is the entropy of this signal in bits?
   \label{fig:tree}
 \end{figure}
 
+a. Build a variable width encoding by constructiang a tree which assigns bits based on probabilities as shown in Fig.1. 
+   Then average bit size would be $0.5*1 + 2*0.25 + 2*0.25 = 1.5$
+
+b. $Entropy=-\sum_{i} P_{i} \log_{2}P_{i} = -( 0.5 \log_{2} 0.5 + 0.25 \log_{2} 0.25 +  0.25 \log_{2} 0.25) = 1.5$
+
+
 \pagebreak
-
-a. 
-
-b. $S = -\sum_{i} P_{i} \log_{2}P_{i}$ = $-( 0.5 \log_{2} 0.5 + 0.25 \log_{2} 0.25 +  0.25 \log_{2} 0.25)$ = 1.5
-
-
 
 ## Problem 2
 
 Show that the Kmeans procedure can be viewed as a special case of the EM algorithm applied to an
 appropriate mixture of Gaussian densities model.
+
+In K-means we assign label to data points based how close they are to a centroid and iterate by moving centers
+to new optimum location until it converges, where in EM assignment is made by choosing maximum expectation and the
+rest is similar.
+For instance let's use Gaussian Densities Model:
+Let's say we have N data points in 2D space with k=2 clusters and we want to apply EM to do the clustering. 
+
 
 \pagebreak
 
