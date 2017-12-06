@@ -1,0 +1,127 @@
+---
+title: "CS7641 ML Problem Set II by Georgia Tech"
+author: "T. Ruzmetov"
+date: "December 5, 2017"
+output:
+    pdf_document:
+        fig_caption: yes
+urlcolor: blue
+---
+
+\fontfamily{cmr}
+\fontsize{11}{18}
+\selectfont
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+*Ownership of the following report developed as a result of assigned institutional effort, an assignment of the CS 7641 Machine Learning course shall reside with GT and the instructors of this class. If the document is released into the public domain it will violate the GT Honor Code*
+
+```{r, echo=FALSE,eval=TRUE}
+#library("lattice")
+library("knitr")
+#library("ggplot2")
+#library("Rmisc")
+```
+
+
+
+## Problem 1
+
+You have to communicate a signal in a language that has 3 symbols A, B and C. The probability of
+observing A is 50% while that of observing B and C is 25% each. Design an appropriate encoding for this
+language. What is the entropy of this signal in bits?
+
+\begin{figure}
+    \center
+        \includegraphics[width=5.0cm]{plots/prob1.png}
+    \center
+  \caption{}
+  \label{fig:tree}
+\end{figure}
+
+\pagebreak
+
+a. 
+
+b. $S = -\sum_{i} P_{i} \log_{2}P_{i}$ = $-( 0.5 \log_{2} 0.5 + 0.25 \log_{2} 0.25 +  0.25 \log_{2} 0.25)$ = 1.5
+
+
+
+## Problem 2
+
+Show that the Kmeans procedure can be viewed as a special case of the EM algorithm applied to an
+appropriate mixture of Gaussian densities model.
+
+\pagebreak
+
+
+
+## Problem 3
+
+\begin{figure}
+    \center
+        \includegraphics[width=12.0cm]{plots/pca.pdf}
+    \center
+  \caption{Here we show 6x6(left plot) easy and 13x13(right plot) hard grid world problem topologies. As depicted, grey circle is the agent and
+  blue square at top right corner is final destination.}
+  \label{fig:pca}
+\end{figure}
+
+
+\pagebreak
+
+## Problem 4
+
+Which clustering method(s) is most likely to produce the following results at k = 2? Choose the most
+likely method(s) and briefly explain why it/they will work better where others will not in at most 3
+sentences. Here are the five clustering methods you can choose from:
+ 
+ * Hierarchical clustering with single link
+ 
+ * Hierarchical clustering with complete link
+ 
+ * Hierarchical clustering with average link
+ 
+ * K-means
+
+ * EM
+
+\begin{figure}
+    \center
+        \includegraphics[width=14.0cm]{plots/clusters.pdf}
+   \center
+  \caption{}
+  \label{fig:blobs}
+\end{figure}
+
+\pagebreak
+
+
+## Problem 7
+
+Consider the following simple grid world problem. (Actions are N, S, E, W and are deterministic.) Our
+goal is to maximize the following reward:
+
+1. 10 for the transition from state 6 to G
+
+2. 10 for the transition from state 8 to G
+
+3. 0 for all other transitions
+
+\center
+
+```{r table, echo=FALSE}
+data <- data.frame(a=c("S","4","7"), b=c("2","5","8"), c=c("3","6","G") )
+colnames(data) <- NULL
+library(gridExtra)
+library(grid)
+library(gtable)
+g <- tableGrob(data, rows = NULL)
+grid.draw(g)
+```
+
+\endcenter
+
