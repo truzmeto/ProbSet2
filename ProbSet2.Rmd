@@ -40,6 +40,7 @@ __You have to communicate a signal in a language that has 3 symbols A, B and C. 
   \label{fig:tree}
 \end{figure}
 
+
 a. Build a variable width encoding by constructiang a tree which assigns bits based on probabilities as shown in Fig.1. 
    Then average bit size would be $0.5*1 + 2*0.25 + 2*0.25 = 1.5$
 
@@ -124,7 +125,6 @@ c. EM is most likely the best candidate here, since points are mixed.
 
 \pagebreak
 
-
 ## Problem 7
 
 __Consider the following simple grid world problem. (Actions are N, S, E, W and are deterministic.) Our goal is to maximize the following reward:__
@@ -135,7 +135,27 @@ __Consider the following simple grid world problem. (Actions are N, S, E, W and 
 
 3. __0 for all other transitions__
 
-\center
+
+a. __Draw the Markov Decision Process associated to the system.__
+
+b. __Compute the value function for each state for iteration 0, 1, 2 and 3 with $\gamma=0.8$__
+
+
+
+Using Bellman's equation I did value iteration giving 80% chance to best action and 10% chance to
+other possible actions at 90 degrees. 
+
+$$ U_{t+1}(s) = R(s) + \gamma max_{a} \sum_{s^{'}} T(s,a,s^{'}) U_{t}(s^{'}) $$
+
+\begin{figure}
+    \center
+        \includegraphics[width=8.0cm]{plots/mdp.png}
+    \center
+  \caption{}
+  \label{fig:mdp}
+\end{figure}
+
+
 
 ```{r table, echo=FALSE}
 data <- data.frame(a=c("S","4","7"), b=c("2","5","8"), c=c("3","6","G") )
@@ -144,14 +164,10 @@ library(gridExtra)
 library(grid)
 library(gtable)
 g <- tableGrob(data, rows = NULL)
-grid.draw(g)
+p1 <-grid.draw(g)
 ```
 
-\endcenter
 
-a. __Draw the Markov Decision Process associated to the system.__
-
-b. __Compute the value function for each state for iteration 0, 1, 2 and 3 with $\gamma=0.8$__
 
 
 ```{r, echo=FALSE,fig.cap="iter0"}
@@ -161,27 +177,49 @@ g <- tableGrob(data0, rows = NULL)
 grid.draw(g)
 ```
 
+
+__Iteration 1__
+
+$$ U(6) = U(8) = 0 + 0.8[0 + 0 + 0.8*10] = 6.4$$
+The rest ov V-values are zeros
+
+
 ```{r, echo=FALSE,fig.cap="iter1"}
-data0 <- data.frame(a=c("0","0","0"), b=c("0","0","8/3"), c=c("0","8/3","10") )
+data0 <- data.frame(a=c("0","0","0"), b=c("0","0","6.4"), c=c("0","6.4","10") )
 colnames(data0) <- NULL
 g <- tableGrob(data0, rows = NULL)
 grid.draw(g)
 ```
 
+
+__Iteration 2__
+
+$$ U(6) = U(8) = 0 + 0.8[0.1*6.4 + 0 + 0.8*10] = 6.917$$
+$$ U(3) = U(7) = 0 + 0.8[0 + 0 + 0.8*6.4] = 4.096$$
+$$ U(5) = 0 + 0.8[0.8*6.4 + 0 + 0.1*6.4] = 4.608$$
 
 
 ```{r, echo=FALSE,fig.cap="iter2"}
-data0 <- data.frame(a=c("0","0","16/15"), b=c("0","16/15","8/3"), c=c("16/15","8/3","10") )
+data0 <- data.frame(a=c("0","0","4.096"), b=c("0","4.608","6.912"), c=c("4.096","6.912","10") )
 colnames(data0) <- NULL
 g <- tableGrob(data0, rows = NULL)
 grid.draw(g)
 ```
+
+__Iteration 3__
+
+$$ U(6) = U(8) = 0 + 0.8[0.1*6.912 + 0.1*4.608 + 0.8*10] = 7.3216$$
+$$ U(3) = U(7) = 0 + 0.8[0.4096 + 0 + 0.8*6.912] = 4.75136$$
+$$ U(5) = 0 + 0.8[0.8*6.912 + 0 + 0.1*6.912] = 4.97664$$
+$$ U(2) = U(4) = 0 + 0.8[0.8*4.608 + 0.1*4.096] = 3.2768$$
 
 
 ```{r, echo=FALSE,fig.cap="iter3"}
-data0 <- data.frame(a=c("0","0.57","16/15"), b=c("0.57","16/15","3.23"), c=c("16/15","3.23","10") )
+data0 <- data.frame(a=c("0","3.2768","4.7513"), b=c("3.2768","4.9766","7.3216"), c=c("4.7513","7.3216","10") )
 colnames(data0) <- NULL
 g <- tableGrob(data0, rows = NULL)
 grid.draw(g)
 ```
+
+
 
