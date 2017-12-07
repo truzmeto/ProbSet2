@@ -30,9 +30,7 @@ library("knitr")
 
 ## Problem 1
 
-You have to communicate a signal in a language that has 3 symbols A, B and C. The probability of
-observing A is 50% while that of observing B and C is 25% each. Design an appropriate encoding for this
-language. What is the entropy of this signal in bits?
+__You have to communicate a signal in a language that has 3 symbols A, B and C. The probability ofobserving A is 50% while that of observing B and C is 25% each. Design an appropriate encoding for this language. What is the entropy of this signal in bits?__
 
 \begin{figure}
     \center
@@ -52,49 +50,61 @@ b. $Entropy=-\sum_{i} P_{i} \log_{2}P_{i} = -( 0.5 \log_{2} 0.5 + 0.25 \log_{2} 
 
 ## Problem 2
 
-Show that the Kmeans procedure can be viewed as a special case of the EM algorithm applied to an
-appropriate mixture of Gaussian densities model.
+__Show that the Kmeans procedure can be viewed as a special case of the EM algorithm applied to an appropriate mixture of Gaussian densities model.__
 
-In K-means we assign label to data points based how close they are to a centroid and iterate by moving centers
-to new optimum location until it converges, where in EM assignment is made by choosing maximum expectation and the
-rest is similar.
-For instance let's use Gaussian Densities Model:
-Let's say we have N data points in 2D space with k=2 clusters and we want to apply EM to do the clustering. 
+In K-means we assign labels to data points based on how close they are to a centroid and iterate by moving centroids
+to new optimum location(center of class) until it convergence is acheived. 
+For EM, we first calculated expectation values per data point for all clusters. Closer the data point to
+a centroid location higher expectation it has. 
 
+$$P(x=x_{i} | \mu = \mu_{j})  = e^{-\frac{(x_{i} - \mu_{j})^{2}}{2\sigma^{2}}}$$
 
-\pagebreak
+$$E(Z_{ij}) = \frac{P(x=x_{i} | \mu = \mu_{j})}{\sum_{i} P(x=x_{i} | \mu = \mu_{j})}$$
 
+Then we calculate new centroid location per cluster using previously calculated expectation values
+as a weight for our statistical average. In contrast to K-means, here clusters don't need to claim 
+data points based on closeness because it is kind of taken care of, where far points have very low expectaion(weights)
+so they don't contribute to $\mu_{j}$ update as much as close points. 
+
+$$ \mu_{j}= \frac{\sum_{i} E(Z_{ij})x_{i}}{\sum_{i} E(Z_{ij})} $$
+
+Basically, say we have 2 clusters, then all data points belong to a cluster 1 with some probability, where
+far points have low probability and close points have high probability respectively. Same reasoning applies to cluster 2.
+This simply inplies that boundary between clusters is soft. In contrast, Kmeans has a strict boundary condition based on distance.
+
+Now, we can take EM Gaussian densities model and change soft boundary condition to a hard one by claiming data points based on
+some strict condition. Then it becomes same as K-means. 
 
 
 ## Problem 3
+\pagebreak
 
 \begin{figure}
     \center
         \includegraphics[width=12.0cm]{plots/pca.pdf}
     \center
-  \caption{Here we show 6x6(left plot) easy and 13x13(right plot) hard grid world problem topologies. As depicted, grey circle is the agent and
-  blue square at top right corner is final destination.}
+  \caption{}
   \label{fig:pca}
 \end{figure}
 
 
 \pagebreak
 
+
+
 ## Problem 4
 
-Which clustering method(s) is most likely to produce the following results at k = 2? Choose the most
-likely method(s) and briefly explain why it/they will work better where others will not in at most 3
-sentences. Here are the five clustering methods you can choose from:
+__Which clustering method(s) is most likely to produce the following results at k = 2? Choose the most likely method(s) and briefly explain why it/they will work better where others will not in at most 3 sentences. Here are the five clustering methods you can choose from:__
  
- * Hierarchical clustering with single link
+ * __Hierarchical clustering with single link__ 
  
- * Hierarchical clustering with complete link
+ * __Hierarchical clustering with complete link__
  
- * Hierarchical clustering with average link
+ * __Hierarchical clustering with average link__
  
- * K-means
+ * __K-means__
 
- * EM
+ * __EM__
 
 \begin{figure}
     \center
@@ -104,19 +114,26 @@ sentences. Here are the five clustering methods you can choose from:
   \label{fig:blobs}
 \end{figure}
 
+a. Hierarchical clustering with single linkage works best for this case, because neighbouring points are
+very close to each other. EM with elliptic gaussian will also work, but migh need smart initialization.
+
+b. K-means and EM GMM will work best.
+
+c. EM is most likely the best candidate here, since points are mixed.
+
+
 \pagebreak
 
 
 ## Problem 7
 
-Consider the following simple grid world problem. (Actions are N, S, E, W and are deterministic.) Our
-goal is to maximize the following reward:
+__Consider the following simple grid world problem. (Actions are N, S, E, W and are deterministic.) Our goal is to maximize the following reward:__
 
-1. 10 for the transition from state 6 to G
+1. __10 for the transition from state 6 to G__
 
-2. 10 for the transition from state 8 to G
+2. __10 for the transition from state 8 to G__
 
-3. 0 for all other transitions
+3. __0 for all other transitions__
 
 \center
 
@@ -131,4 +148,40 @@ grid.draw(g)
 ```
 
 \endcenter
+
+a. __Draw the Markov Decision Process associated to the system.__
+
+b. __Compute the value function for each state for iteration 0, 1, 2 and 3 with $\gamma=0.8$__
+
+
+```{r, echo=FALSE,fig.cap="iter0"}
+data0 <- data.frame(a=c("0","0","0"), b=c("0","0","0"), c=c("0","0","10") )
+colnames(data0) <- NULL
+g <- tableGrob(data0, rows = NULL)
+grid.draw(g)
+```
+
+```{r, echo=FALSE,fig.cap="iter1"}
+data0 <- data.frame(a=c("0","0","0"), b=c("0","0","8/3"), c=c("0","8/3","10") )
+colnames(data0) <- NULL
+g <- tableGrob(data0, rows = NULL)
+grid.draw(g)
+```
+
+
+
+```{r, echo=FALSE,fig.cap="iter2"}
+data0 <- data.frame(a=c("0","0","16/15"), b=c("0","16/15","8/3"), c=c("16/15","8/3","10") )
+colnames(data0) <- NULL
+g <- tableGrob(data0, rows = NULL)
+grid.draw(g)
+```
+
+
+```{r, echo=FALSE,fig.cap="iter3"}
+data0 <- data.frame(a=c("0","0.57","16/15"), b=c("0.57","16/15","3.23"), c=c("16/15","3.23","10") )
+colnames(data0) <- NULL
+g <- tableGrob(data0, rows = NULL)
+grid.draw(g)
+```
 
